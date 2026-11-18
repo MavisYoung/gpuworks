@@ -17,9 +17,7 @@ The **Listen addresses** card under Settings → General (the `listen.*` setting
 UI fields that require a server address are prefilled with the address currently used by your browser. You can change it to a domain name or reverse proxy address; the corresponding API field, `server_url`, must be supplied explicitly.
 Changing `listen.agent` affects **already installed** agents: they only dial the address in their installation command. If that address no longer forwards to the new listen address, they go offline until forwarding is fixed or the agents are reinstalled.
 
-The **Network topology and settings** card at the top of **Compute → Networks** shows each setting on a simple topology diagram and a complex topology diagram,
-alongside a numbered reference table explaining where you configure it, what it does, and what it does not determine. Hover over a number or table row to highlight the corresponding items.
-If these address concepts are unfamiliar, start with this diagram.
+Open **Network guide** under **Compute → Networks** for example topologies of a simple deployment and a deployment with dedicated networks. Hover over a numbered item or its table row to highlight the corresponding path and see where to configure it and what it controls. To inspect interfaces, addresses, and connectivity in your environment, open a network from the resource list.
 
 ## Networks
 
@@ -212,7 +210,7 @@ Ring tests can detect problems with individual nodes or HCAs, but cannot detect 
 
 **RDMA bandwidth (ib_write_bw)** first checks the HCAs and tools:
 
-- Each node pair starts a server on the target HCA, then connects from the source HCA. HCAs run in parallel, and bandwidth is the sum across HCAs. HCA IPs on the same subnet are paired first (including point-to-point /30 and /31 subnets); the rest are paired in order. Extra HCAs fail with “This HCA has no HCA to pair with on the other node”. The handshake uses the target node's bootstrap address.
+- Each node pair starts a server on the target HCA, then connects from the source HCA. HCAs measure bandwidth in parallel. HCA IPs on the same subnet are paired first (including point-to-point /30 and /31 subnets); the rest are paired in order. Extra HCAs fail with “This HCA has no HCA to pair with on the other node”. The handshake uses the target node's bootstrap address.
 - RoCE uses an IPv4 RoCE v2 GID, matching the default selection in NCCL 2.21 and later. If the RoCE interface has no IPv4 address, the test reports failure directly rather than letting the tool select a GID itself.
 - The tool first uses `ib_write_bw` from the host's `PATH`, then the version bundled with the agent. The bundled version dynamically links to the host's `libibverbs` and `librdmacm` and can run once userspace libraries such as rdma-core or MLNX_OFED are installed. If neither version can run, the affected nodes are listed before the test starts, and the test also fails with “Cannot run ib_write_bw; install perftest”. The package manager installs the userspace libraries along with perftest.
 
@@ -245,15 +243,17 @@ The form shows the node count, probe count, round count, and estimated maximum d
 
 1. Select the test method, **Nodes** (all nodes on the network, selected nodes, or filter by label), and **Pairs** (All pairs or Ring). At least two nodes are required. To test TCP throughput, select **Measure throughput** and set the seconds per pair.
 2. Check the address, HCA, and tool notices before starting: nodes without an address (bootstrap for RDMA) or a usable HCA are listed. For card tests, also check the estimated duration. Correct configuration that affects this test, then click **Start test**.
-3. Wait for results. Review **Problems** first, then open failed node pairs for details. Use the result descriptions below to fix wiring, addresses, or tools. Run the same scope again to confirm the problems are resolved.
+3. Wait for the results. Inspect the node-pair measurements, or open the issue summary to locate affected pairs. Use the result descriptions below to fix wiring, addresses, or tools. Run the same scope again to confirm the problems are resolved.
 
 Each network retains its 10 most recent results. Tests in progress when the server restarts are marked as interrupted.
 
 ### View TCP and RDMA Bandwidth Results
 
-**Problems** groups failures by node, HCA, and reason, and states how many pairs are affected. For an HCA that should not be used, click **Remove HCA** directly; run the test again to see the effect.
+All pairs opens the **Global matrix** by default. Rows identify source nodes and columns identify targets. Each cell represents one direction. The headers stay visible as you scroll. Hover over a truncated name to see it in full. Filter by source name, target name, and one or more statuses together. For example, selecting only partial results shows RDMA pairs for which some rails passed and others failed in the same direction. Ring tests list the directed pairs that were tested.
 
-Below, All pairs shows a node matrix, and Ring shows a node-pair list. Each pair is classified as **Passed / Partial (some HCAs failed) / Failed**. Click or press Enter to view source and target addresses and RTT. RDMA tests also list the source and target of each HCA pair, their respective IPs, and results.
+**Average RDMA bandwidth** includes only the rails that passed. If three rails measure 90, 95, and 100 Gbps and the fourth fails, the pair shows 95 Gbps with 3/4 rails passed. A pair with no passing rails has no bandwidth reading. Click a result or press Enter to inspect the HCAs and IP addresses at both ends of each rail, its bandwidth, and any failure reason. TCP shows the measured throughput for that direction when throughput testing is enabled, or reachability when only connectivity was tested.
+
+The count on **Issue summary** is the number of distinct problems grouped by node, HCA, and reason. Expand a problem to see the affected directed pairs, then select a pair for details. For an HCA that should be excluded, click **Remove HCA** and rerun the test.
 
 ### View Accelerator Card Reachability Results
 
@@ -273,4 +273,4 @@ If most node pairs have the same shape, the results give the corresponding concl
 
 Click or press Enter to open a node pair: the full card matrix shows a source-card × target-card grid, while same-named cards shows a list of individual pairs. Hover to see both addresses, RTT, or the failure reason. When testing only one node pair, this grid is shown directly.
 
-<!-- translation-source-sha256: ed61e217de95f33c0888d0aec91c80fc9049c520667e854be40051178b0f5d05 -->
+<!-- translation-source-sha256: 736deac350d5ab08a4cbc861585d6680febe06eedc6210f3b8155cb29c794d67 -->
