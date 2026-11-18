@@ -5070,6 +5070,8 @@ export const api = {
   setManagementRoles: (uuid: string, rolesOff: NetworkRole[]) =>
     sendJSON<NodeNetworks>("PUT", `/api/v1/nodes/${uuid}/management-roles`, { roles_off: rolesOff }),
   networks: () => getJSON<NetworkList>("/api/v1/networks"),
+  searchNetworkTargets: (id: number, kind: "nodes" | "attachments", q: string, signal?: AbortSignal) =>
+    getJSON<{ ids: string[] }>(`/api/v1/networks/${id}/search?${new URLSearchParams({ kind, q })}`, signal),
   network: (id: number) => getJSON<NetworkDetail>(`/api/v1/networks/${id}`),
   createNetwork: (body: NetworkRequest) =>
     sendJSON<NetworkDetail>("POST", "/api/v1/networks", body),

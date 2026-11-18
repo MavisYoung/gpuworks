@@ -19,7 +19,7 @@ Changing `listen.agent` affects **already installed** agents: they only dial the
 
 Open **Network guide** under **Compute → Networks** for example topologies of a simple deployment and a deployment with dedicated networks. Hover over a numbered item or its table row to highlight the corresponding path and see where to configure it and what it controls. To inspect interfaces, addresses, and connectivity in your environment, open a network from the resource list.
 
-The Attached to column shows names for up to five attachments. For larger sets, it shows separate counts for directly attached nodes and labels. Select the counts to open the full list. The resolved node count includes nodes matched by labels.
+The Attached to column shows names for up to five attachments. For larger sets, it shows separate counts for directly attached nodes and labels. Select the counts to open the network overview. The resolved node count includes nodes matched by labels.
 
 ## Networks
 
@@ -49,7 +49,7 @@ After nodes are attached, values are inferred for each node from the network inv
 | HCA | Select ACTIVE ports. If the node has InfiniBand ports, select only InfiniBand; otherwise, select RoCE. RoCE ports require an IPv4 address on their interface. Keep only the group with the highest speed (use interface speed for RoCE), excluding, for example, 1G management ports. |
 | Bootstrap | Select in this order: the bootstrap specified on the node; if a bootstrap CIDR is set on the network, an interface whose address falls within it (leave it empty and warn if none matches; do not fall back); the address of the first HCA's interface; for InfiniBand without IPoIB, the management network address. |
 
-The node list on the network details page shows each node's bootstrap IP and grouped HCAs with HCA IPs, marked **Auto** or **Manual**:
+Expand a node in the network overview. The indented details show that node’s bootstrap IP, HCAs, and HCA IPs, marked **Auto** or **Manual**:
 
 - Click ✕ next to an HCA to remove it. By default, this removes it from **every** node on the network that uses it (HCAs on each node must be paired one to one). You can select the option to remove it from this node only. **Add HCA** lets you select from the ports reported by that node; unavailable ports show the reason (inactive or no IPv4 address on the interface). After the first addition or removal, the node's HCA list is fixed to the list at that moment (**Manual**) and no longer changes with the inventory. **Back to auto** restores inference. You cannot remove a node's last HCA; detach the node if you no longer need it on the network.
 - **Change** next to bootstrap lets you select an interface on that node that has an address; **Back to auto** clears the override.
@@ -97,6 +97,10 @@ automatically by deployment and card tests once the network is attached.
 ### Attach to Nodes or Labels
 
 On the network details page, click **Attach**, select multiple nodes or switch to a node label and enter `key=value`, then click **Save**. Check the attachment results and node list. If individual nodes fail, address only those failures; you do not need to repeat successful attachments.
+
+The **Overview** tab for a dedicated network lists its resolved nodes in one table, with each row showing whether the node was attached directly or through a label. Counts above the table show the numbers of direct node attachments and label attachments. To find the port a node uses, search for part of a node name, UUID, interface name, HCA name, IP address, or node label (such as `rack=east`), then expand the matching row. Ethernet rows show the resolved interface and IP address; RDMA rows show bootstrap and HCA details.
+
+To check attachment rules, open **Manage attachments** to expand the configuration list. Search by node name, UUID, label, or an interface, IP, or HCA override. A label that currently matches no nodes can still be found and removed in this view.
 
 A network can be attached to any number of nodes and node labels. Each node ultimately uses only one network for each role:
 
@@ -279,4 +283,4 @@ If most node pairs have the same shape, the results give the corresponding concl
 
 Click or press Enter to open a node pair: the full card matrix shows a source-card × target-card grid, while same-named cards shows a list of individual pairs. Hover to see both addresses, RTT, or the failure reason. When testing only one node pair, this grid is shown directly.
 
-<!-- translation-source-sha256: 9636ec6765ab0eed3998a9b531508790259b592994bd5f6be55d654c42b38acb -->
+<!-- translation-source-sha256: ca3052ccad01aec3595026f95cc7ee32301485abdcd9d17743d1b747f316c3dd -->

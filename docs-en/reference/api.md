@@ -1808,6 +1808,7 @@ See [Configure Node Networks](../how-to/configure-networks.md).
 | GET | `/api/v1/networks` | Network list (including attachments, resolved node count, and count of nodes with notices) and role/type dictionaries (`types`: `host_ethernet` / `host_rdma` / `accelerator_rdma` / `accelerator_hccs`; `type_roles`: roles each type can serve). The first entry is the management network (`id` 0, `builtin: true`) | JWT |
 | POST | `/api/v1/networks` | Create a network (name, role, type, CIDR, and interface name wildcard). Accelerator RDMA can serve only the compute role; otherwise, returns `NETWORK_TYPE_ROLE_INVALID` | JWT(admin) |
 | GET | `/api/v1/networks/{id}` | Network details: attachments, resolved nodes (interfaces/IPs/HCAs/hints and the nodes' user-defined `labels`), and the latest internal test. `id` 0 is the management network, whose nodes include `roles_off`; it cannot be modified, deleted, or attached (returns 404), but internal tests can be started | JWT |
+| GET | `/api/v1/networks/{id}/search` | Search a network's resolved nodes (`kind=nodes`) or configured attachment targets (`kind=attachments`). Optional `q` matches a case-insensitive substring. Returns `{"ids":[...]}` with node UUIDs or attachment IDs as strings. An empty query returns all IDs in the selected set. | JWT |
 | PATCH | `/api/v1/nodes/management-roles` | Batch-update management network roles: `{"node_uuids":[...],"allow":[...],"deny":[...]}`. Changes only the listed roles, with all nodes in one transaction; returns `{"updated":N}` (the number of nodes actually changed). Returns 404 `MANAGEMENT_ROLES_NODE_NOT_FOUND` if a node does not exist | JWT(admin) |
 | PUT | `/api/v1/nodes/{uuid}/management-roles` | Set the roles that this node's management network does not serve (`{"roles_off":[...]}`); returns the node's network view. Applies only to new instances | JWT(admin) |
 | PUT | `/api/v1/networks/{id}` | Modify a network | JWT(admin) |
@@ -2358,4 +2359,4 @@ Node GPU and `/api/v1/gpus` physical-card DTOs both return the boolean `memory_c
 
 An unknown `target_vendor` on `/api/v1/engines` returns 400. If custom-command features cannot be determined and the target declares launch-feature restrictions, evaluation/creation returns `LAUNCH_FEATURES_UNKNOWN` with parameter `vendor`; the scheduler uses `launch_features_unknown`. Re-evaluate with a recognized engine entrypoint and structured parameters.
 
-<!-- translation-source-sha256: 3fabc4d46c1054fb97c61c2a1870b5907c45a15a693e71ab1ec21a6983829e95 -->
+<!-- translation-source-sha256: 2530ecfa4e47fef5db6f9f6a9662d42e92865224ad3ef516793ecf07e0d6739b -->
