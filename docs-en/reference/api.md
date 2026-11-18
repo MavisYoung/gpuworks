@@ -1815,6 +1815,7 @@ See [Configure Node Networks](../how-to/configure-networks.md).
 | DELETE | `/api/v1/networks/{id}` | Delete a network and its attachments and test records (running instances are unaffected) | JWT(admin) |
 | POST | `/api/v1/networks/{id}/attachments` | Attach to a node (optionally with interface/IP/HCA overrides) or a node label | JWT(admin) |
 | PUT | `/api/v1/networks/{id}/attachments/{attachmentID}` | Modify overrides for a node attachment | JWT(admin) |
+| PUT | `/api/v1/networks/{id}/attachments/{attachmentID}/label` | Update the label attachment’s `label_key` and `label_value`, preserving its ID and attachment time | JWT(admin) |
 | DELETE | `/api/v1/networks/{id}/attachments/{attachmentID}` | Remove an attachment | JWT(admin) |
 | POST | `/api/v1/networks/{id}/tests/estimate` | Use the same request body without starting a test: returns the resolved node count and node-pair count. Card tests also return `card` (`rounds`, `probes`, maximum duration `seconds`, and limit `max_seconds`). Requests that would be rejected when starting a test are rejected here with the same errors | JWT(admin) |
 | POST | `/api/v1/networks/{id}/tests` | Start an internal test (`kind`: tcp / rdma_tool / card_ping / card_matrix; rdma_tool requires a host RDMA network, while card_ping (pings between accelerator cards with matching indices) and card_matrix (a matrix of all cards) require an accelerator RDMA or accelerator HCCS network. HCCS card tests use `hccn_tool -hccs_ping`; RoCE card tests use `-ping`. Returns `NETWORK_TEST_TOO_LONG` if rounds × 3 seconds exceeds 10 minutes. `scope`: all / nodes / label; `id` 0 tests the management network and supports only tcp). Returns 202 and a run record (`node_uuids` lists the tested nodes, fixed when the test starts and available during execution even before `pairs` exists). Executed by the controller | JWT(admin) |
@@ -2359,4 +2360,4 @@ Node GPU and `/api/v1/gpus` physical-card DTOs both return the boolean `memory_c
 
 An unknown `target_vendor` on `/api/v1/engines` returns 400. If custom-command features cannot be determined and the target declares launch-feature restrictions, evaluation/creation returns `LAUNCH_FEATURES_UNKNOWN` with parameter `vendor`; the scheduler uses `launch_features_unknown`. Re-evaluate with a recognized engine entrypoint and structured parameters.
 
-<!-- translation-source-sha256: 2530ecfa4e47fef5db6f9f6a9662d42e92865224ad3ef516793ecf07e0d6739b -->
+<!-- translation-source-sha256: 4da8ceb9195d7b886e6f12147eed5ecdba4c4b1bde215fd61042da41facf18a3 -->

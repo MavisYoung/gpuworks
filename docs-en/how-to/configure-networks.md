@@ -98,9 +98,11 @@ automatically by deployment and card tests once the network is attached.
 
 On the network details page, click **Attach**, select multiple nodes or switch to a node label and enter `key=value`, then click **Save**. Check the attachment results and node list. If individual nodes fail, address only those failures; you do not need to repeat successful attachments.
 
-The **Overview** tab for a dedicated network lists its resolved nodes in one table, with each row showing whether the node was attached directly or through a label. Counts above the table show the numbers of direct node attachments and label attachments. To find the port a node uses, search for part of a node name, UUID, interface name, HCA name, IP address, or node label (such as `rack=east`), then expand the matching row. Ethernet rows show the resolved interface and IP address; RDMA rows show bootstrap and HCA details.
+The **Overview** tab lists the nodes of a dedicated network in a paginated table. **Attachments** counts direct node attachments and configured labels separately. Each row shows the roles, attachment source and attachment time. For host RDMA networks, the summary shows the node’s resolved bootstrap IP for this network and its HCA port count. Accelerator networks show the bootstrap IP and card count. Use the button before the node name or click the row background to expand it. The expanded row shows the bootstrap interface, per-port addresses and configured overrides, and lets you add or remove HCAs. Ethernet rows show the interface and IP address.
 
-To check attachment rules, open **Manage attachments** to expand the configuration list. Search by node name, UUID, label, or an interface, IP, or HCA override. A label that currently matches no nodes can still be found and removed in this view.
+Search across pages by part of a node name, UUID, interface name, HCA name, IP address or node label (for example, `rack=east`). Use the row actions to edit or detach a direct node attachment, or edit the attachment label for a node attached by label. Changing an attachment label affects all nodes matched by that rule.
+
+Open **Manage attached labels** to search, add, edit or detach labels, including rules that currently match no nodes. Direct attachments that have not resolved to nodes can also be viewed and managed separately.
 
 A network can be attached to any number of nodes and node labels. Each node ultimately uses only one network for each role:
 
@@ -283,4 +285,4 @@ If most node pairs have the same shape, the results give the corresponding concl
 
 Click or press Enter to open a node pair: the full card matrix shows a source-card × target-card grid, while same-named cards shows a list of individual pairs. Hover to see both addresses, RTT, or the failure reason. When testing only one node pair, this grid is shown directly.
 
-<!-- translation-source-sha256: ca3052ccad01aec3595026f95cc7ee32301485abdcd9d17743d1b747f316c3dd -->
+<!-- translation-source-sha256: 65e9b7e663039b5ecfd9526161cc4c15e2569a4d716ee238004d37bb38c4e917 -->
