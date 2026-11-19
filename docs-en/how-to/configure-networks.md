@@ -100,7 +100,7 @@ In the network details, click **Attach nodes** in the node table toolbar, select
 
 The **Overview** tab lists the nodes of a dedicated network in a paginated table. **Loaded nodes** shows the total number of nodes in the table. The configured label count and **Manage labels** appear below the heading. Each row shows the roles, attachment source and attachment time. For host RDMA networks, the summary shows the node’s resolved bootstrap IP for this network and its HCA port count. Accelerator networks show the bootstrap IP and card count. Use the button before the node name or click the row background to expand it. The expanded row shows the bootstrap interface, per-port addresses and configured overrides, and lets you add or remove HCAs. Ethernet rows show the interface and IP address.
 
-Search across pages by part of a node name, UUID, interface name, HCA name, IP address or node label (for example, `rack=east`). Use the row actions to edit or detach a direct node attachment, or edit the attachment label for a node attached by label. Changing an attachment label affects all nodes matched by that rule.
+Search across pages by part of a node name, UUID, interface name, HCA name, IP address or node label (for example, `rack=east`). The role and attachment source columns each support multiple selections and can be combined with the search. The management network’s resolved nodes table also supports cross-page search and label filtering. Use the row actions to edit or detach a direct node attachment, or edit the attachment label for a node attached by label. Changing an attachment label affects all nodes matched by that rule.
 
 Open **Manage labels**, enter a label key and value in the form, and click **Save** to add a rule. The same dialog lets you search and detach existing rules, including those that currently match no nodes. Click **Edit** on a rule to fill the form with its key and value, change the fields, and click **Save** to update that rule. Direct attachments that have not resolved to nodes can also be viewed and managed separately.
 
@@ -285,4 +285,4 @@ If most node pairs have the same shape, the results give the corresponding concl
 
 Click or press Enter to open a node pair: the full card matrix shows a source-card × target-card grid, while same-named cards shows a list of individual pairs. Hover to see both addresses, RTT, or the failure reason. When testing only one node pair, this grid is shown directly.
 
-<!-- translation-source-sha256: 8f813ec81054dfa9bf23571d39732aab817d24d84246d2b1267e5f74bfb1ce9e -->
+<!-- translation-source-sha256: a6db7db2b90cc914d8bcc44d465bd18a0a8f8e6a7309ba83351382e2315443ad -->

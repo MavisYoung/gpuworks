@@ -10,7 +10,7 @@ import type { Eligibility, ScheduleCapabilities } from "./deploymentCapabilities
 import type { YieldPolicy } from "./yieldPolicyApi";
 import { useEffect, useRef, useState } from "react";
 import type {
-  NetworkAttachBatchResult, NetworkAttachmentRequest, NetworkDetail, NetworkHCARequest, NetworkList,
+  NetworkAttachBatchResult, NetworkAttachmentRequest, NetworkNodeFilters, NetworkDetail, NetworkHCARequest, NetworkList,
   NetworkOverrideRequest, NetworkRequest, NetworkRole, NetworkTestEstimate, NetworkTestRequest, NetworkTestRun, NodeNetworks,
 } from "./networkTypes";
 export type * from "./networkTypes";
@@ -5070,8 +5070,12 @@ export const api = {
   setManagementRoles: (uuid: string, rolesOff: NetworkRole[]) =>
     sendJSON<NodeNetworks>("PUT", `/api/v1/nodes/${uuid}/management-roles`, { roles_off: rolesOff }),
   networks: () => getJSON<NetworkList>("/api/v1/networks"),
-  searchNetworkTargets: (id: number, kind: "nodes" | "attachments", q: string, signal?: AbortSignal) =>
-    getJSON<{ ids: string[] }>(`/api/v1/networks/${id}/search?${new URLSearchParams({ kind, q })}`, signal),
+  searchNetworkTargets: (id: number, kind: "nodes" | "attachments", q: string, signal?: AbortSignal, filters?: NetworkNodeFilters) => {
+    const params = new URLSearchParams({ kind, q });
+    for (const role of filters?.roles ?? []) params.append("role", role);
+    for (const source of filters?.source ?? []) params.append("source", source);
+    return getJSON<{ ids: string[] }>(`/api/v1/networks/${id}/search?${params}`, signal);
+  },
   network: (id: number) => getJSON<NetworkDetail>(`/api/v1/networks/${id}`),
   createNetwork: (body: NetworkRequest) =>
     sendJSON<NetworkDetail>("POST", "/api/v1/networks", body),
