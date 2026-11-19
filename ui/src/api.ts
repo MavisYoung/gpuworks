@@ -26,6 +26,7 @@ import i18n from "./i18n";
 import { APIError, apiErrorText, apiResponseError, ProxyErrorPage, type ProductMessage } from "./apiError";
 import type { DiagnosticReport } from "./diagnosticChecks";
 import { readSSE } from "./sse";
+import { openChangeStream } from "./events/changeStream";
 import { isSessionExpired, subscribeSessionChanges } from "./session";
 import type { LocalizedText } from "./i18n/localizedText";
 import type { InferenceAPIOperation } from "./inferenceApi";
@@ -5996,14 +5997,13 @@ export const api = {
 // All hooks share one EventSource. Opening one connection per hook exhausts the
 // browser's per-origin HTTP/1.1 connection pool and leaves ordinary API
 // refreshes pending behind the long-lived SSE streams.
-let sharedEventSource: EventSource | null = null;
+let sharedEventSource: ReturnType<typeof openChangeStream> | null = null;
 let sharedEventSubscribers = 0;
 let eventSessionCheck: Promise<void> | null = null;
 
-function acquireEventSource(): EventSource {
+function acquireEventSource(): ReturnType<typeof openChangeStream> {
   if (!sharedEventSource) {
-    sharedEventSource = new EventSource("/api/v1/events");
-    sharedEventSource.onerror = () => {
+    sharedEventSource = openChangeStream(() => {
       // EventSource hides HTTP statuses, so distinguish authentication expiry
       // from an ordinary connection failure through a management request.
       if (eventSessionCheck) return;
@@ -6011,13 +6011,13 @@ function acquireEventSource(): EventSource {
         .then(async (response) => { if (!response.ok) await apiResponseError(response, ""); })
         .catch(() => { /* A network failure does not establish session expiry. */ })
         .finally(() => { eventSessionCheck = null; });
-    };
+    });
   }
   sharedEventSubscribers += 1;
   return sharedEventSource;
 }
 
-function releaseEventSource(source: EventSource) {
+function releaseEventSource(source: ReturnType<typeof openChangeStream>) {
   sharedEventSubscribers = Math.max(0, sharedEventSubscribers - 1);
   if (sharedEventSubscribers === 0 && sharedEventSource === source) {
     source.close();
@@ -6062,7 +6062,7 @@ export function useEventPayload(
 }
 
 function subscribeEvents(topic: string, handler: EventListener, restored: () => void): () => void {
-  let source: EventSource | null = null;
+  let source: ReturnType<typeof openChangeStream> | null = null;
   const stop = () => {
     if (!source) return;
     source.removeEventListener(topic, handler);
