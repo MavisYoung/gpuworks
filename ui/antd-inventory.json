@@ -1,12 +1,12 @@
 {
   "components": {
-    "Alert": 282,
+    "Alert": 281,
     "AutoComplete": 4,
     "Badge": 6,
     "Breadcrumb": 1,
     "Button": 441,
     "Card": 99,
-    "Checkbox": 29,
+    "Checkbox": 28,
     "Col": 107,
     "Collapse": 17,
     "ConfigProvider": 2,
@@ -21,9 +21,9 @@
     "Input": 130,
     "InputNumber": 54,
     "List": 2,
-    "Modal": 57,
+    "Modal": 55,
     "Pagination": 2,
-    "Popconfirm": 39,
+    "Popconfirm": 38,
     "Popover": 2,
     "Progress": 13,
     "Radio": 39,
@@ -42,11 +42,11 @@
     "Tabs": 11,
     "Tag": 199,
     "Tooltip": 129,
-    "Typography": 770,
+    "Typography": 769,
     "Upload": 6,
     "antd/locale/en_US": 0,
     "antd/locale/zh_CN": 0,
-    "message": 260,
+    "message": 259,
     "theme": 1
   },
   "files": {
@@ -99,7 +99,7 @@
     "ui/src/pages/DeploymentSleepControls.tsx": {"components":{"Space":1,"Typography":1,"message":9},"icons":0,"imports":["Space","Typography","message"],"sites":11,"types":[]},
     "ui/src/pages/DeploymentTokenizeEditor.tsx": {"components":{"message":2},"icons":0,"imports":["message"],"sites":2,"types":[]},
     "ui/src/pages/DeploymentWakeWait.tsx": {"components":{"Alert":3,"Button":3,"Popconfirm":1,"Space":2,"Typography":2},"icons":0,"imports":["Alert","Button","Popconfirm","Space","Typography"],"sites":11,"types":[]},
-    "ui/src/pages/DeploymentsPage.tsx": {"components":{"Alert":2,"Badge":1,"Button":6,"Card":1,"Checkbox":1,"Dropdown":1,"Input":1,"Modal":1,"Space":3,"Tooltip":3,"Typography":8,"message":5},"icons":10,"imports":["Alert","Badge","Button","Card","Checkbox","Dropdown","Input","Modal","Space","Tooltip","Typography","message"],"sites":33,"types":[]},
+    "ui/src/pages/DeploymentsPage.tsx": {"components":{"Alert":1,"Badge":1,"Button":6,"Card":1,"Dropdown":1,"Input":1,"Space":3,"Tooltip":3,"Typography":7,"message":5},"icons":10,"imports":["Alert","Badge","Button","Card","Dropdown","Input","Space","Tooltip","Typography","message"],"sites":29,"types":[]},
     "ui/src/pages/EvaluationSupport.tsx": {"components":{"Button":1,"Card":1,"Col":1,"Collapse":1,"Descriptions":1,"Statistic":1,"Table":1},"icons":1,"imports":["Button","Card","Col","Collapse","Descriptions","Statistic","Table"],"sites":7,"types":[]},
     "ui/src/pages/EvaluationsPage.tsx": {"components":{"Alert":1,"Button":6,"Card":4,"Col":1,"Popconfirm":1,"Row":1,"Space":3,"Spin":1,"Tag":4,"Tooltip":2,"Typography":1,"message":2},"icons":4,"imports":["Alert","Button","Card","Col","Popconfirm","Row","Space","Spin","Tag","Tooltip","Typography","message"],"sites":27,"types":[]},
     "ui/src/pages/GPUPage.tsx": {"components":{"Alert":1,"Badge":2,"Button":7,"Card":4,"Input":1,"Progress":1,"Space":7,"Tabs":1,"Tag":3,"Tooltip":9,"Typography":5},"icons":6,"imports":["Alert","Badge","Button","Card","Input","Progress","Space","Tabs","Tag","Tooltip","Typography"],"sites":41,"types":["TablePaginationConfig"]},
@@ -114,8 +114,8 @@
     "ui/src/pages/LogsHistogram.tsx": {"components":{"Tooltip":1,"Typography":1},"icons":0,"imports":["Tooltip","Typography"],"sites":2,"types":[]},
     "ui/src/pages/LogsPage.tsx": {"components":{"AutoComplete":1,"Button":7,"Card":2,"Input":1,"InputNumber":1,"Select":3,"Space":6,"Switch":1,"Typography":5},"icons":1,"imports":["AutoComplete","Button","Card","Input","InputNumber","Select","Space","Switch","Typography"],"sites":27,"types":[]},
     "ui/src/pages/LogsRangeControl.tsx": {"components":{"DatePicker":1,"Select":1},"icons":0,"imports":["DatePicker","Select"],"sites":2,"types":[]},
-    "ui/src/pages/ModelsPage.tsx": {"components":{"Alert":1,"Button":5,"Card":1,"Dropdown":1,"Input":1,"Modal":1,"Pagination":1,"Select":1,"Space":1,"Tooltip":4,"Typography":1,"message":3},"icons":6,"imports":["Alert","Button","Card","Dropdown","Input","Modal","Pagination","Select","Space","Tooltip","Typography","message"],"sites":21,"types":[]},
-    "ui/src/pages/ModelsPageParts.tsx": {"components":{"Button":12,"Card":1,"Descriptions":8,"Flex":3,"Form":3,"Input":1,"Modal":2,"Popconfirm":1,"Select":3,"Space":3,"Table":0,"Tag":6,"Tooltip":6,"Typography":3,"message":5},"icons":5,"imports":["Button","Card","Descriptions","Flex","Form","Input","Modal","Popconfirm","Select","Space","Table","Tag","Tooltip","Typography","message"],"sites":57,"types":[]},
+    "ui/src/pages/ModelsPage.tsx": {"components":{"Alert":1,"Button":5,"Card":1,"Dropdown":1,"Input":1,"Pagination":1,"Select":1,"Space":1,"Tooltip":4,"Typography":1,"message":2},"icons":6,"imports":["Alert","Button","Card","Dropdown","Input","Pagination","Select","Space","Tooltip","Typography","message"],"sites":19,"types":[]},
+    "ui/src/pages/ModelsPageParts.tsx": {"components":{"Button":12,"Card":1,"Descriptions":8,"Flex":3,"Form":3,"Input":1,"Modal":2,"Select":3,"Space":3,"Table":0,"Tag":6,"Tooltip":6,"Typography":3,"message":5},"icons":5,"imports":["Button","Card","Descriptions","Flex","Form","Input","Modal","Select","Space","Table","Tag","Tooltip","Typography","message"],"sites":56,"types":[]},
     "ui/src/pages/NodesPage.tsx": {"components":{"Button":3,"Card":1,"Checkbox":1,"Input":1,"Modal":1,"Select":1,"Space":2,"Typography":3,"message":7},"icons":1,"imports":["Button","Card","Checkbox","Input","Modal","Select","Space","Typography","message"],"sites":20,"types":[]},
     "ui/src/pages/NotFoundPage.tsx": {"components":{"Button":3,"Result":1,"Space":2,"Typography":2},"icons":0,"imports":["Button","Result","Space","Typography"],"sites":8,"types":[]},
     "ui/src/pages/OrderDialogs.tsx": {"components":{"Modal":1},"icons":0,"imports":["Modal"],"sites":1,"types":[]},
@@ -366,5 +366,5 @@
     "ui/src/ui-kit/Spinner.tsx": {"components":{},"icons":1,"imports":[],"sites":0,"types":[]},
     "ui/src/ui-kit/feedback/index.tsx": {"components":{},"icons":1,"imports":[],"sites":0,"types":[]}
   },
-  "summary": {"antRules":183,"antdFiles":286,"cssFilesWithAntRules":12,"iconFiles":91,"iconImports":219,"sites":4210}
+  "summary": {"antRules":183,"antdFiles":286,"cssFilesWithAntRules":12,"iconFiles":91,"iconImports":219,"sites":4203}
 }
