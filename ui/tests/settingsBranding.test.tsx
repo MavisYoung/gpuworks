@@ -83,6 +83,10 @@ test("a stored logo shows in the preview and restoring the default clears it", a
   assert.equal(productInput().value, "Acme");
   await waitFor(() => assert.equal(saveButton().disabled, false));
   await user.click(screen.getByRole("button", { name: b.restoreDefault }));
+  const popup = await screen.findByRole("dialog");
+  assert.ok(within(popup).getByText(b.confirmRestoreLogo));
+  assert.equal(container.querySelector(".branding-logo-preview img")?.getAttribute("src"), logo);
+  await user.click(within(popup).getByRole("button", { name: "Confirm" }));
   assert.equal(container.querySelector(".branding-logo-preview img")?.getAttribute("src"), branding.DEFAULT_LOGO);
   assert.equal(screen.queryByRole("button", { name: b.restoreDefault }), null);
   await user.click(saveButton());
@@ -98,6 +102,13 @@ test("restoring all branding is a draft until the administrator confirms the sav
   const restore = screen.getByRole("button", { name: b.restoreAll }) as HTMLButtonElement;
   await waitFor(() => assert.equal(restore.disabled, false));
   await user.click(restore);
+  const popup = await screen.findByRole("dialog");
+  assert.ok(within(popup).getByText(b.confirmRestoreAll));
+  await user.click(within(popup).getByRole("button", { name: "Cancel" }));
+  assert.equal(productInput().value, "Acme");
+  assert.deepEqual(api.updates, []);
+  await user.click(restore);
+  await user.click(within(await screen.findByRole("dialog")).getByRole("button", { name: "Confirm" }));
   assert.equal(productInput().value, "");
   assert.equal((screen.getByPlaceholderText(b.consoleTitlePlaceholder) as HTMLInputElement).value, "");
   assert.equal((screen.getByPlaceholderText(locale.common.branding.defaultLoginDescription) as HTMLTextAreaElement).value, "");

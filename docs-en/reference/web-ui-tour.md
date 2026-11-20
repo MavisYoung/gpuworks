@@ -127,7 +127,7 @@ Path: `/settings`. The page has six tabs. URL fragments `#general`, `#pull`, `#n
 
 #### General
 
-- **Branding**: Set the logo, product name, top bar title, and sign-in page introduction. Leave fields empty to use the built-in defaults. Only administrators can change these settings. Restore brand defaults clears all four customizations in the draft. Review it, choose Save and confirm to apply it. Settings save actions ask for confirmation.
+- **Branding**: Set the logo, product name, top bar title, and sign-in page introduction. Leave fields empty to use the built-in defaults. Only administrators can change these settings. Choose **Restore brand defaults** to see which four fields will change. Confirm to update the draft, then choose **Save** and confirm to apply it. Restoring just the logo also asks for confirmation. Settings save actions ask for confirmation.
   - Selecting an image opens a cropping page with the whole image selected by default. Drag, zoom, or select a new crop; select “Crop to a square” to lock a 1:1 ratio and preview the actual sidebar appearance.
   - After confirmation, the browser resizes the image to within 256 pixels and compresses it. Small, uncropped SVG files are kept unchanged.
   - **Display locations**: The logo appears at the upper left of the top bar, with the title beside it when configured. The browser tab title and icon also follow the product name and logo. The left side of the sign-in page displays the logo, product name, and introduction. Custom text appears unchanged and is not translated when the interface language changes.
@@ -187,5 +187,5 @@ Every action on a page uses a REST endpoint under `/api/v1`. See [Complete REST 
 <!-- translation-source-sha256: 697de00dc77ec5e4a1280bcabb8d14a7c4cfed223bb81451917c06b7b633a819 ## Models -->
 <!-- translation-source-sha256: 43a21fd64582a6b7cad1a84707be5e6dd89e527c08aa90db6e23858f23633b31 ## Inference -->
 <!-- translation-source-sha256: eddceb7ecf3e155e1388d7fbcb530b0d399f331fccbaa412c3c40024593447f4 ## Administration -->
-<!-- translation-source-sha256: b442610f451d4f78180e27b9871d39c92fe57077a4c8ba56f9229c9635b92d36 ### Settings -->
+<!-- translation-source-sha256: 0adba10c6cd30f4abaad68fc32a78a5b61f1b27c73330d94dab829edb3510418 ### Settings -->
 <!-- translation-source-sha256: 04542ee877955cacdd78f381a1d9c1a5386c2a3213b4b8eee639a716d0049038 ## Mapping to the API -->

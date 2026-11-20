@@ -4,7 +4,7 @@
     "AutoComplete": 4,
     "Badge": 6,
     "Breadcrumb": 1,
-    "Button": 427,
+    "Button": 426,
     "Card": 99,
     "Checkbox": 28,
     "Col": 107,
@@ -306,7 +306,7 @@
     "ui/src/pages/scheduling/WindowPicker.tsx": {"components":{"Segmented":0},"icons":0,"imports":["Segmented"],"sites":0,"types":[]},
     "ui/src/pages/settings/AIConfigCard.tsx": {"components":{"Alert":2,"Button":3,"Card":1,"Popconfirm":1,"Space":1,"Table":0,"Tag":1,"Tooltip":1,"Typography":1,"message":2},"icons":0,"imports":["Alert","Button","Card","Popconfirm","Space","Table","Tag","Tooltip","Typography","message"],"sites":13,"types":["ColumnsType"]},
     "ui/src/pages/settings/AIConfigModal.tsx": {"components":{"Alert":3,"Button":3,"Form":13,"Input":5,"Modal":1,"Select":2,"Space":3,"Switch":2,"message":4},"icons":0,"imports":["Alert","Button","Form","Input","Modal","Select","Space","Switch","message"],"sites":36,"types":[]},
-    "ui/src/pages/settings/BrandingCard.tsx": {"components":{"Alert":2,"Button":3,"Card":1,"Form":5,"Input":3,"Space":3,"Typography":1,"Upload":1,"message":3},"icons":1,"imports":["Alert","Button","Card","Form","Input","Space","Typography","Upload","message"],"sites":22,"types":[]},
+    "ui/src/pages/settings/BrandingCard.tsx": {"components":{"Alert":2,"Button":2,"Card":1,"Form":5,"Input":3,"Space":3,"Typography":1,"Upload":1,"message":3},"icons":1,"imports":["Alert","Button","Card","Form","Input","Space","Typography","Upload","message"],"sites":21,"types":[]},
     "ui/src/pages/settings/DataRetentionCard.tsx": {"components":{"Alert":3,"Button":1,"Card":3,"Form":2,"InputNumber":1,"Select":1,"Skeleton":1,"Space":7,"Switch":1,"Tag":1,"Typography":8,"message":2},"icons":0,"imports":["Alert","Button","Card","Form","InputNumber","Select","Skeleton","Space","Switch","Tag","Typography","message"],"sites":31,"types":[]},
     "ui/src/pages/settings/DebugSessionCard.tsx": {"components":{"Alert":3,"Button":2,"Card":1,"Descriptions":5,"Form":5,"InputNumber":2,"Popconfirm":2,"Select":2,"Space":2,"Table":0,"Tag":2,"Typography":2,"message":4},"icons":0,"imports":["Alert","Button","Card","Descriptions","Form","InputNumber","Popconfirm","Select","Space","Table","Tag","Typography","message"],"sites":32,"types":[]},
     "ui/src/pages/settings/DeploymentPolicyCard.tsx": {"components":{"Alert":1,"Card":1,"Form":2,"InputNumber":1,"Space":1,"Typography":1,"message":2},"icons":0,"imports":["Alert","Card","Form","InputNumber","Space","Typography","message"],"sites":9,"types":[]},
@@ -366,5 +366,5 @@
     "ui/src/ui-kit/Spinner.tsx": {"components":{},"icons":1,"imports":[],"sites":0,"types":[]},
     "ui/src/ui-kit/feedback/index.tsx": {"components":{},"icons":1,"imports":[],"sites":0,"types":[]}
   },
-  "summary": {"antRules":183,"antdFiles":286,"cssFilesWithAntRules":12,"iconFiles":91,"iconImports":219,"sites":4190}
+  "summary": {"antRules":183,"antdFiles":286,"cssFilesWithAntRules":12,"iconFiles":91,"iconImports":219,"sites":4189}
 }

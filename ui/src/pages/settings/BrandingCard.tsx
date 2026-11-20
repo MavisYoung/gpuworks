@@ -8,6 +8,7 @@ import { apiErrorText } from "../../apiError";
 import { useIsAdmin } from "../../components/useIsAdmin";
 import { BrandMark, DEFAULT_BRANDING, DEFAULT_PRODUCT_NAME, setBranding } from "../../branding";
 import { Button as ZeronButton } from "../../components/ui/button";
+import { ConfirmPopover } from "../../ui-kit/ConfirmPopover";
 import LogoCropModal from "./LogoCropModal";
 
 const { Text } = Typography;
@@ -63,7 +64,11 @@ export default function BrandingCard() {
       id={BRANDING_ANCHOR}
       title={t("branding.title")}
       extra={<Space>
-        <ZeronButton variant="ghost" size="sm" disabled={disabled || saving || !Object.values(draft ?? {}).some(Boolean)} onClick={() => setDraft(DEFAULT_BRANDING)}>{t("branding.restoreAll")}</ZeronButton>
+        <ConfirmPopover
+          trigger={<ZeronButton variant="ghost" size="sm" disabled={disabled || saving || !Object.values(draft ?? {}).some(Boolean)}>{t("branding.restoreAll")}</ZeronButton>}
+          title={t("branding.confirmRestoreAll")}
+          onConfirm={() => setDraft(DEFAULT_BRANDING)}
+        />
         <SettingsSaveButton loading={saving} disabled={disabled} onSave={save} />
       </Space>}
     >
@@ -83,7 +88,11 @@ export default function BrandingCard() {
               >
                 <Button icon={<UploadOutlined />}>{t("branding.uploadLogo")}</Button>
               </Upload>
-              {draft?.logo && <Button onClick={() => edit({ logo: "" })}>{t("branding.restoreDefault")}</Button>}
+              {draft?.logo && <ConfirmPopover
+                trigger={<ZeronButton variant="secondary" size="sm" disabled={disabled || saving}>{t("branding.restoreDefault")}</ZeronButton>}
+                title={t("branding.confirmRestoreLogo")}
+                onConfirm={() => edit({ logo: "" })}
+              />}
             </Space>
           </Form.Item>
           <Form.Item label={t("branding.productName")} extra={t("branding.productNameHelp")}>
