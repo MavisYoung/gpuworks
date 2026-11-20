@@ -85,9 +85,18 @@ func (c *apiClient) call(ctx context.Context, method, path string, body, out any
 	return err
 }
 
+// multipartBody retains its bytes for a replay after login.
+type multipartBody struct {
+	data        []byte
+	contentType string
+}
+
 func (c *apiClient) send(ctx context.Context, method, path string, body, out any, token string) (int, error) {
 	var reader io.Reader
-	if body != nil {
+	contentType := "application/json"
+	if form, ok := body.(*multipartBody); ok {
+		reader, contentType = bytes.NewReader(form.data), form.contentType
+	} else if body != nil {
 		raw, err := json.Marshal(body)
 		if err != nil {
 			return 0, err
@@ -99,7 +108,7 @@ func (c *apiClient) send(ctx context.Context, method, path string, body, out any
 		return 0, err
 	}
 	if body != nil {
-		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("Content-Type", contentType)
 	}
 	if token != "" {
 		req.Header.Set("Authorization", "Bearer "+token)

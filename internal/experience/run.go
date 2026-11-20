@@ -219,6 +219,11 @@ func populate(ctx context.Context, app *serverapp.App, c *apiClient, g *guard, d
 		return
 	}
 	spawn(func() { traffic(ctx, app.LoopbackURL(), c, keys) })
+	spawn(func() {
+		if err := seedBatch(ctx, c); err != nil && ctx.Err() == nil {
+			log.Warn("sample batch was not created", "err", err)
+		}
+	})
 	spawn(func() { seedBenchmark(ctx, c, filepath.Join(dataDir, "seeded-benchmark"), log) })
 	spawn(func() { backfillMetrics(ctx, app, filepath.Join(dataDir, "seeded-metrics"), log) })
 	seedHistory(ctx, app, c, members, keys, filepath.Join(dataDir, "seeded-history"), log)
