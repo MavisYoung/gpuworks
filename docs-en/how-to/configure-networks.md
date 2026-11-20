@@ -109,6 +109,8 @@ A network can be attached to any number of nodes and node labels. Each node ulti
 1. Direct node attachments take precedence over label attachments.
 2. If multiple networks for the same role match at the same priority, the earliest attachment takes effect. The node details page and the node list on the network details page show an orange exclamation mark beside that node; hover over it to see which networks are not in effect.
 
+Detaching a direct node attachment removes its overrides and causes the node to be resolved again. If a label rule on this network takes over the role, the node stays in the table and its attachment source changes to that label.
+
 **Attach nodes** lets you select multiple nodes at once. Failure for an individual node (for example, a deleted node) does not affect the others. Results are listed for each node, and nodes that are already attached count as successful.
 
 When attaching a Host Ethernet network to a node, you can override the default selector by specifying an interface or IP. For Host RDMA, Accelerator RDMA, and Accelerator HCCS networks, you can specify a bootstrap interface or IP on the node (see the previous sections) and add or remove rails in the node list. Overrides are validated against the agent's reported network inventory; values absent from the inventory also show an orange exclamation mark. You can save even when the node is offline.
@@ -285,4 +287,4 @@ If most node pairs have the same shape, the results give the corresponding concl
 
 Click or press Enter to open a node pair: the full card matrix shows a source-card × target-card grid, while same-named cards shows a list of individual pairs. Hover to see both addresses, RTT, or the failure reason. When testing only one node pair, this grid is shown directly.
 
-<!-- translation-source-sha256: b3c5dd8f7093c2b779703f3f161c666e4b50ac08eec28d4348f5e6308c0e547d -->
+<!-- translation-source-sha256: 7750151d05cb39bbcfe9f8f716ed661804fcccdb74a46303dc45bc76fd18ded7 -->
