@@ -240,6 +240,8 @@ func seedModels(ctx context.Context, c *apiClient, dataDir string, members map[s
 		Items []struct {
 			ID       uint   `json:"id"`
 			SourceID string `json:"source_id"`
+			Source   string `json:"source"`
+			LogoPath string `json:"logo_path"`
 		} `json:"items"`
 	}
 	if err := c.get(ctx, "/api/v1/models", &existing); err == nil {
@@ -285,6 +287,15 @@ func seedModels(ctx context.Context, c *apiClient, dataDir string, members map[s
 		for _, repo := range n.Models {
 			if id, ok := ids[repo]; ok {
 				preloaded[repo] = id
+			}
+		}
+	}
+	// Older environments already have their checkpoints, but the offline hub
+	// did not provide author avatars when their models were registered.
+	for _, m := range existing.Items {
+		if m.Source == "huggingface" && m.LogoPath == "" && preloaded[m.SourceID] == m.ID {
+			if err := c.post(ctx, fmt.Sprintf("/api/v1/models/%d/metadata/refresh", m.ID), nil, nil); err != nil {
+				errs = append(errs, fmt.Errorf("refresh %s: %w", m.SourceID, err))
 			}
 		}
 	}
