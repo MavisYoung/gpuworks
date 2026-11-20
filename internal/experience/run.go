@@ -188,6 +188,9 @@ func Run(ctx context.Context, cfg Config, log *slog.Logger) error {
 // deployments, the cloud accounts, the usage history and a finished
 // evaluation; then it keeps live traffic going.
 func populate(ctx context.Context, app *serverapp.App, c *apiClient, g *guard, dataDir string, members map[string]member, shapes map[string]modelShape, spawn func(func()), log *slog.Logger) {
+	if err := seedExampleTemplate(ctx, c, app.Store(), filepath.Join(dataDir, "seeded-template")); err != nil {
+		log.Warn("example inference template was not added", "err", err)
+	}
 	ids, err := seedModels(ctx, c, dataDir, members, shapes)
 	if err != nil {
 		log.Warn("models were not all preloaded", "err", err)
