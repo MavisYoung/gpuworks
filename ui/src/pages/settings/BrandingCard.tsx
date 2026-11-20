@@ -1,3 +1,4 @@
+import SettingsSaveButton from "./SettingsSaveButton";
 import { useEffect, useState } from "react";
 import { Alert, Button, Card, Form, Input, Space, Typography, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
@@ -5,7 +6,8 @@ import { useTranslation } from "react-i18next";
 import { api, type Branding } from "../../api";
 import { apiErrorText } from "../../apiError";
 import { useIsAdmin } from "../../components/useIsAdmin";
-import { BrandMark, DEFAULT_PRODUCT_NAME, setBranding } from "../../branding";
+import { BrandMark, DEFAULT_BRANDING, DEFAULT_PRODUCT_NAME, setBranding } from "../../branding";
+import { Button as ZeronButton } from "../../components/ui/button";
 import LogoCropModal from "./LogoCropModal";
 
 const { Text } = Typography;
@@ -60,13 +62,16 @@ export default function BrandingCard() {
     <Card
       id={BRANDING_ANCHOR}
       title={t("branding.title")}
-      extra={<Button type="primary" loading={saving} disabled={disabled} onClick={() => void save()}>{t("common.save")}</Button>}
+      extra={<Space>
+        <ZeronButton variant="ghost" size="sm" disabled={disabled || saving || !Object.values(draft ?? {}).some(Boolean)} onClick={() => setDraft(DEFAULT_BRANDING)}>{t("branding.restoreAll")}</ZeronButton>
+        <SettingsSaveButton loading={saving} disabled={disabled} onSave={save} />
+      </Space>}
     >
       <Space direction="vertical" size={8} style={{ width: "100%", maxWidth: 720 }}>
         <Text type="secondary">{t("branding.description")}</Text>
         {loadError && <Alert type="error" showIcon message={loadError} action={<Button size="small" onClick={() => void load()}>{tCommon("actions.retry")}</Button>} />}
         {!isAdmin && <Alert type="info" showIcon message={t("branding.adminOnly")} />}
-        <Form layout="vertical" style={{ marginTop: 8 }} disabled={disabled}>
+        <Form layout="vertical" style={{ marginTop: 8 }} disabled={disabled || saving}>
           <Form.Item label={t("branding.logo")} extra={t("branding.logoHelp")}>
             <Space size={12} wrap>
               <span className="branding-logo-preview"><BrandMark logo={draft?.logo ?? ""} /></span>
@@ -74,7 +79,7 @@ export default function BrandingCard() {
                 accept="image/png,image/jpeg,image/webp,image/svg+xml"
                 showUploadList={false}
                 beforeUpload={(file) => { pickLogo(file); return false; }}
-                disabled={disabled}
+                disabled={disabled || saving}
               >
                 <Button icon={<UploadOutlined />}>{t("branding.uploadLogo")}</Button>
               </Upload>
