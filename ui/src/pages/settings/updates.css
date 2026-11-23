@@ -86,6 +86,11 @@
   font-weight: 400;
 }
 
+.gw-update-body {
+  border-inline-start: 2px solid var(--border);
+  padding-inline-start: clamp(10px, 1.5cqi, 20px);
+}
+
 .gw-toolbar {
   justify-content: space-between;
   gap: 12px 20px;
@@ -108,11 +113,9 @@
 }
 
 .gw-channel-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-weight: 500;
-  color: var(--fg-default);
+  font-size: var(--font-size-label);
+  font-weight: 400;
+  color: var(--fg-muted);
 }
 
 .gw-check {
@@ -147,7 +150,7 @@
 }
 
 .gw-updates > .gw-running-build {
-  margin: 0 0 12px;
+  margin-block: 16px;
 }
 
 .gw-build-identity h3 {
@@ -342,3 +345,8 @@
     font-size: var(--font-size-label);
   }
 }
+
+.gw-version-group, .gw-running-build .gw-build-identity h3 {
+  margin: 0; font-size: var(--font-size-body); font-weight: 600; color: var(--fg-default);
+}
+.gw-update-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 12px; }

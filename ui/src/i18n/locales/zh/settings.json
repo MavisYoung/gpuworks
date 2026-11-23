@@ -62,10 +62,11 @@
     "failed": "未能安装 {{version}}，可重新检查并选择版本。"
   },
   "updates": {
+    "updateGroup": "更新版本",
     "buildFields": {"channel": "构建渠道", "builtAt": "构建时间", "matched": "匹配发布版本"},
     "updateItem": "更新项目",
     "channelLatest": "渠道最新",
-    "title": "版本与更新",
+    "title": "版本与升级",
     "description": "检查并更新服务端版本、系统镜像目录与推理模板目录；不能联网时可以上传文件更新。",
     "check": "检查更新",
     "unavailable": "暂时无法检查更新",
@@ -129,7 +130,7 @@
     "autoCheckOffHelp": "已关闭：服务端不再自动检查。点「检查更新」时仍会读取版本索引。",
     "notChecked": "尚未检查更新",
     "notCheckedHelp": "自动检测已关闭。点右上角「检查更新」手动检查，或在这里上传文件更新。",
-    "currentBuild": "当前控制面构建",
+    "currentBuild": "当前版本信息",
     "checkedAt": "检查于 {{time}}"
   },
   "usageReport": {

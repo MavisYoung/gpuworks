@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { ConsoleIcon } from "../ui-kit/consoleIcons";
 import { Button } from "../components/ui/button";
 import { Tooltip } from "../components/ui/tooltip";
 import { Notice } from "../ui-kit/Notice";
@@ -79,6 +80,7 @@ export default function DashboardPage() {
   const { t, i18n } = useTranslation("dashboard");
   const language = i18n.resolvedLanguage ?? "en";
   const [storagePage, setStoragePage] = useState(1);
+  const [refreshing, setRefreshing] = useState(false);
   const health = usePolling<Health>(api.health, 10000);
   const summary = usePolling(() => api.dashboardSummary(), 10000);
   const providers = usePolling<List<CloudProvider>>(api.providers, 30000);
@@ -97,6 +99,17 @@ export default function DashboardPage() {
   useEvents("node", () => { void health.refresh(); void summary.refresh(); void gpus.refresh(); void offlineNodes.refresh(); void storageUsage.refresh(); });
   useEvents("deployment", () => { summary.refetch(); monitor.refetch(); });
   useEvents("provider", () => providers.refetch());
+
+  async function refreshDashboard() {
+    setRefreshing(true);
+    try {
+      // Refreshing storage usage also updates the dependent storage capacity rows.
+      await Promise.all([health, summary, providers, gpus, models, offlineNodes, monitor, storages, storageUsage, usage]
+        .map(query => query.refresh()));
+    } finally {
+      setRefreshing(false);
+    }
+  }
 
   const fleet = summary.data;
   const cloudList = providers.data?.items ?? [];
@@ -255,6 +268,9 @@ export default function DashboardPage() {
         // A light green pill with a bright dot: the dark success text alone read as black.
         ? <Badge status="success" size="sm" leadingIcon={<span className="size-1.5 rounded-full bg-success-strong" />}>{t("overview.normal")}</Badge>
         : <b>{controlStatus ?? "—"}</b>}</span>
+      <Button size="sm" variant="secondary" leadingIcon={ConsoleIcon.refresh}
+        loading={refreshing} disabled={refreshing} aria-busy={refreshing}
+        onClick={() => void refreshDashboard()}>{t("common:actions.refresh")}</Button>
     </div>} />
     {attentionEntries.length > 0 && <AttentionBanner entries={attentionEntries} grouped={groupedAttention} count={groupedAttention ? attentionGroups.length : attentionCount} />}
     {partial && <Notice tone="warning" title={t("overview.unavailable")} />}

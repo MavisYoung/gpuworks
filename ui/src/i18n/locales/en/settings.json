@@ -62,10 +62,11 @@
     "failed": "Could not install {{version}}. Check again and select a version."
   },
   "updates": {
+    "updateGroup": "Update version",
     "buildFields": {"channel": "Build channel", "builtAt": "Built", "matched": "Matching release"},
     "updateItem": "Update item",
     "channelLatest": "Latest in channel",
-    "title": "Version and updates",
+    "title": "Version and upgrades",
     "description": "Check and update the server, the system image catalog and the inference template catalog here; without internet access, upload the files instead.",
     "check": "Check for updates",
     "unavailable": "Updates cannot be checked right now",
@@ -129,7 +130,7 @@
     "autoCheckOffHelp": "Off: the server does not check by itself. \"Check for updates\" still reads the version index when you ask.",
     "notChecked": "Not checked yet",
     "notCheckedHelp": "Automatic checks are off. Use \"Check for updates\" at the top right, or upload files here.",
-    "currentBuild": "Current control-plane build",
+    "currentBuild": "Current version information",
     "checkedAt": "Checked {{time}}"
   },
   "usageReport": {
