@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { api, type ModelCore } from "../../api";
+import { apiErrorText } from "../../apiError";
 import { Button } from "../../components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../../components/ui/dialog";
 
@@ -10,6 +11,7 @@ export function ModelDeleteDialog({ targets, onClose, onDeleted }: {
   onDeleted: (ids: number[]) => void;
 }) {
   const { t } = useTranslation("models");
+  const { t: tCommon } = useTranslation("common");
   const [busy, setBusy] = useState(false);
   const [failures, setFailures] = useState<Map<number, string> | null>(null);
   const single = targets.length === 1;
@@ -18,14 +20,19 @@ export function ModelDeleteDialog({ targets, onClose, onDeleted }: {
     setBusy(true);
     const errors = new Map<number, string>();
     const deleted: number[] = [];
-    for (const model of targets) {
-      try {
-        await api.deleteModel(model.id);
-        deleted.push(model.id);
-      } catch (cause) {
-        errors.set(model.id, cause instanceof Error ? cause.message : String(cause));
+    // Independent deletions share a queue, bounding writes even for a full page.
+    const pending = targets.values();
+    const removeNext = async () => {
+      for (const model of pending) {
+        try {
+          await api.deleteModel(model.id);
+          deleted.push(model.id);
+        } catch (cause) {
+          errors.set(model.id, apiErrorText(tCommon, cause));
+        }
       }
-    }
+    };
+    await Promise.all(Array.from({ length: Math.min(4, targets.length) }, removeNext));
     onDeleted(deleted);
     setBusy(false);
     if (errors.size) {

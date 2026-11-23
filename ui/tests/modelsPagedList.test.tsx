@@ -164,6 +164,34 @@ test("deleting the last row of a page steps back to the previous page instead of
   }
 });
 
+test("deleting the middle page keeps its page number while more models remain", async () => {
+  const originalDelete = api.deleteModel;
+  const deleted = new Set<number>();
+  const readPage = api.modelsPage;
+  api.modelsPage = async (query) => {
+    const result = await readPage(query);
+    const live = fleet.filter((model) => !deleted.has(model.id));
+    const start = (query.page - 1) * query.page_size;
+    return { ...result, items: live.slice(start, start + query.page_size), total: live.length };
+  };
+  api.deleteModel = async (id) => { deleted.add(id); };
+  try {
+    renderPage("list");
+    const user = userEvent.setup({document});
+    await screen.findByText("model-45");
+    await user.click(screen.getByRole("button", { name: "Next page" }));
+    await screen.findByText("model-25");
+    await user.click(screen.getByRole("checkbox", {name: "Select this page"}));
+    await user.click(screen.getByRole("button", {name: "Delete selected (20)"}));
+    await user.click(within(await screen.findByRole("dialog")).getByRole("button", {name: "Delete"}));
+    await screen.findByText("model-5");
+    assert.equal(deleted.size, 20);
+    assert.equal(queries.at(-1)?.page, 2);
+  } finally {
+    api.deleteModel = originalDelete;
+  }
+});
+
 test("bulk delete confirms the selected names, continues after rejection and keeps failed models selected", async () => {
   const calls: number[] = [];
   const original = api.deleteModel;

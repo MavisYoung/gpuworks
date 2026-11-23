@@ -183,8 +183,9 @@ export default function ModelsPage() {
   const afterDelete = (ids: number[]) => {
     if (ids.length === deleting.length) message.success(ids.length === 1 ? t("message.deleted") : t("delete.done", {count: ids.length}));
     select(selected.filter((model) => !ids.includes(model.id)).map((model) => model.id));
-    if (ids.length && pagination.current > 1 && rows.every((row) => ids.includes(row.id))) {
-      pagination.onChange(pagination.current - 1, pagination.pageSize);
+    const lastPage = Math.max(1, Math.ceil((pagination.total - ids.length) / pagination.pageSize));
+    if (ids.length && pagination.current > lastPage) {
+      pagination.onChange(lastPage, pagination.pageSize);
     } else {
       refetch();
     }
