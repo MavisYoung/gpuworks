@@ -68,21 +68,25 @@ func (c *apiClient) post(ctx context.Context, path string, body, out any) error 
 // call sends with the current session, logging in again once when the
 // session was revoked (a password change does that).
 func (c *apiClient) call(ctx context.Context, method, path string, body, out any) error {
+	_, err := c.callStatus(ctx, method, path, body, out)
+	return err
+}
+
+func (c *apiClient) callStatus(ctx context.Context, method, path string, body, out any) (int, error) {
 	c.mu.Lock()
 	token := c.token
 	c.mu.Unlock()
 	status, err := c.send(ctx, method, path, body, out, token)
 	if status != http.StatusUnauthorized {
-		return err
+		return status, err
 	}
 	if lerr := c.relogin(ctx); lerr != nil {
-		return err
+		return status, err
 	}
 	c.mu.Lock()
 	token = c.token
 	c.mu.Unlock()
-	_, err = c.send(ctx, method, path, body, out, token)
-	return err
+	return c.send(ctx, method, path, body, out, token)
 }
 
 // multipartBody retains its bytes for a replay after login.
