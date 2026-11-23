@@ -111,6 +111,29 @@ test("the page reads hardware first: compute, then platform services, then stora
   ok(!document.body.textContent?.includes("by node label"));
 });
 
+test("manual refresh keeps the overview visible and disables repeated clicks until the response arrives", async () => {
+  stub();
+  renderPage();
+  await screen.findByText("Normal");
+  let finish!: (data: DashboardSummary) => void;
+  let requests = 0;
+  api.dashboardSummary = () => {
+    requests++;
+    return new Promise(resolve => { finish = resolve; });
+  };
+  const button = screen.getByRole("button", { name: i18n.t("common:actions.refresh") }) as HTMLButtonElement;
+  fireEvent.click(button);
+  assert.equal(button.disabled, true);
+  fireEvent.click(button);
+  assert.equal(requests, 1);
+  ok(panel("Hardware").textContent?.includes("560GiB"));
+  finish({ ...summary, nodes: { ...summary.nodes, vram_gib: 640 } });
+  await waitFor(() => {
+    assert.equal(button.disabled, false);
+    ok(panel("Hardware").textContent?.includes("640GiB"));
+  });
+});
+
 test("compute is two panels: the hardware there is, then how it is used now", async () => {
   stub(); renderPage();
   const compute = await waitFor(() => { const element = block("Compute resources"); ok(element?.querySelector(".dashboard-kpis")); return element; });
