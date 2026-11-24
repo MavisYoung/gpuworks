@@ -165,13 +165,13 @@ export default function DashboardPage() {
   const attentionEntries = groupedAttention
     ? attentionGroups.map((group) => ({ to: group.to, title: group.label, content: <strong>{group.label}</strong> }))
     : issues.map((issue) => ({ to: issue.to, title: `${issue.kind} · ${issue.name} · ${issue.reason}`, content: <><span>{issue.kind}</span><strong>{issue.name}</strong><span>{issue.reason}</span></> }));
-  const partial = [health, summary, providers, gpus, models, offlineNodes, monitor, usage].some((query) => !!query.error) || storageIncomplete || modelIssuesIncomplete;
+  const refreshFailed = [health, summary, providers, gpus, models, offlineNodes, monitor, usage].some((query) => !!query.error) || storageIncomplete;
   // Polling keeps failures in query state and resolves the refresh promise.
   // Read the committed results once the complete manual refresh has settled.
   useEffect(() => {
-    if (refreshState === "finished") setRefreshState(partial ? "incomplete" : "idle");
-    if (refreshState === "incomplete" && !partial) setRefreshState("idle");
-  }, [refreshState, partial]);
+    if (refreshState === "finished") setRefreshState(refreshFailed ? "incomplete" : "idle");
+    if (refreshState === "incomplete" && !refreshFailed) setRefreshState("idle");
+  }, [refreshState, refreshFailed]);
   const groups = gpus.data ? vendorGroups(gpus.data, t("overview.unknownGpu")) : [];
   const modelCount = groups.reduce((sum, group) => sum + group.models.length, 0);
 
@@ -279,7 +279,7 @@ export default function DashboardPage() {
         onClick={() => void refreshDashboard()}>{t("common:actions.refresh")}</Button>
     </div>} />
     {attentionEntries.length > 0 && <AttentionBanner entries={attentionEntries} grouped={groupedAttention} count={groupedAttention ? attentionGroups.length : attentionCount} />}
-    {partial && <Notice tone="warning" title={t(refreshState === "incomplete" ? "overview.refreshIncomplete" : "overview.unavailable")} />}
+    {(refreshFailed || modelIssuesIncomplete) && <Notice tone="warning" title={t(refreshState === "incomplete" ? "overview.refreshIncomplete" : "overview.unavailable")} />}
     {blocks}
   </div>;
 }

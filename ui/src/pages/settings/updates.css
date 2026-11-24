@@ -68,7 +68,7 @@
 
 .gw-updates {
   min-width: 0;
-  padding: 0 20px 16px;
+  padding: 16px 20px;
 }
 
 .gw-toolbar, .gw-channel, .gw-check, .gw-preferences, .gw-build-id {
@@ -147,7 +147,7 @@
 }
 
 .gw-updates > .gw-running-build {
-  margin-block: 16px;
+  margin-bottom: 16px;
 }
 
 .gw-version-group, .gw-build-identity h3 {

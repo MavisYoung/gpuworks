@@ -43,7 +43,7 @@ const dashboard = JSON.parse(fs.readFileSync(new URL("../src/i18n/locales/en/das
 const i18n = createInstance();
 await i18n.use(initReactI18next).init({ lng: "en", fallbackLng: "en", resources: { en: { dashboard, common: JSON.parse(fs.readFileSync(new URL("../src/i18n/locales/en/common.json", import.meta.url), "utf8")) } }, defaultNS: "dashboard", interpolation: { escapeValue: false } });
 const { MemoryRouter, useLocation } = await import("react-router-dom");
-const { cleanup, fireEvent, render, screen, waitFor } = await import("@testing-library/react");
+const { act, cleanup, fireEvent, render, screen, waitFor } = await import("@testing-library/react");
 const { api } = await import("../src/api.ts");
 const { analyticsApi } = await import("../src/analyticsApi.ts");
 const { default: DashboardPage } = await import("../src/pages/DashboardPage.tsx");
@@ -391,6 +391,12 @@ test("incomplete model pagination marks the known issue count as a lower bound",
   ok(document.querySelector(".dashboard-overview-attention")?.textContent?.includes("Needs attention 1 category"));
   ok(screen.getAllByText("Some overview data is temporarily unavailable").some(el => el.closest('[role="status"]')));
   ok(!document.querySelector(".dashboard-overview-attention")?.textContent?.includes("failed model"));
+
+  const button = screen.getByRole("button", { name: i18n.t("common:actions.refresh") }) as HTMLButtonElement;
+  await act(async () => { fireEvent.click(button); });
+  assert.equal(button.disabled, false);
+  ok(screen.getByRole("link", { name: "Model file issues: at least 1" }));
+  assert.equal(screen.queryAllByText(dashboard.overview.refreshIncomplete).length, 0);
 });
 
 test("hundreds of issues across every category remain a seven-category strip with accurate node count", async () => {
