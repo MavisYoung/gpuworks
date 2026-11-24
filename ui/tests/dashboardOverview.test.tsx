@@ -113,7 +113,16 @@ test("the page reads hardware first: compute, then platform services, then stora
 
 test("manual refresh keeps the overview visible and disables repeated clicks until the response arrives", async () => {
   stub();
+  api.storages = async () => ({ items: [{ id: 2, name: "shared", type: "nfs_cache" }], total: 1 }) as never;
+  const detail = { id: 2, name: "shared", nodes: { all: [] }, total_bytes: 100 * 1024 ** 3, available_bytes: 40 * 1024 ** 3 };
+  api.storage = async () => detail as never;
   renderPage();
+  await screen.findByText("Used 60.0 GiB / total 100.0 GiB");
+  let finishStorage!: () => void;
+  api.storage = async () => {
+    await new Promise<void>(resolve => { finishStorage = resolve; });
+    return { ...detail, available_bytes: 30 * 1024 ** 3 } as never;
+  };
   await screen.findByText("Normal");
   let finish!: (data: DashboardSummary) => void;
   let requests = 0;
@@ -128,10 +137,32 @@ test("manual refresh keeps the overview visible and disables repeated clicks unt
   assert.equal(requests, 1);
   ok(panel("Hardware").textContent?.includes("560GiB"));
   finish({ ...summary, nodes: { ...summary.nodes, vram_gib: 640 } });
-  await waitFor(() => {
-    assert.equal(button.disabled, false);
-    ok(panel("Hardware").textContent?.includes("640GiB"));
-  });
+  await waitFor(() => ok(panel("Hardware").textContent?.includes("640GiB")));
+  assert.equal(button.disabled, true);
+  ok(screen.getByText("Used 60.0 GiB / total 100.0 GiB"));
+  finishStorage();
+  await screen.findByText("Used 70.0 GiB / total 100.0 GiB");
+  await waitFor(() => assert.equal(button.disabled, false));
+});
+
+test("manual refresh reports a health request failure and clears it after a successful retry", async () => {
+  stub();
+  let offline = false;
+  const health = api.health;
+  api.health = async () => {
+    if (offline) throw Error("offline");
+    return health();
+  };
+  renderPage();
+  await screen.findByText("Normal");
+  offline = true;
+  const button = screen.getByRole("button", { name: i18n.t("common:actions.refresh") });
+  fireEvent.click(button);
+  await screen.findByText(dashboard.overview.refreshIncomplete);
+  offline = false;
+  fireEvent.click(button);
+  await screen.findByText("Normal");
+  await waitFor(() => assert.equal(screen.queryByText(dashboard.overview.refreshIncomplete), null));
 });
 
 test("compute is two panels: the hardware there is, then how it is used now", async () => {

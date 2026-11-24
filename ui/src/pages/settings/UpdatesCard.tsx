@@ -322,25 +322,23 @@ export default function UpdatesCard() {
   return (
     <Card id="updates" classNames={{ header: "gw-card-head", body: "gw-card-body" }} title={<div className="gw-card-title">
       <span>{t("updates.title")}</span>
+      <div className="gw-preferences">
+        {status && (
+          <Space align="center">
+            <Switch id="update-auto-check" label={t("updates.autoCheck")} checked={status.auto_check}
+              className="p-0" aria-busy={savingAutoCheck}
+              disabled={savingAutoCheck || !status.channel_editable || busy !== "" || waiting || switchingTo !== null}
+              onCheckedChange={value => void switchAutoCheck(value)} />
+            <HelpTip content={status.auto_check ? t("updates.autoCheckOnHelp") : t("updates.autoCheckOffHelp")} />
+          </Space>
+        )}
+        <UsageReportSwitch />
+      </div>
     </div>}>
       <div className="gw-updates">
         {status && <RunningBuild version={status.server.current} build={status.server.current_build} />}
         <section aria-labelledby="update-version-heading">
-          <div className="gw-update-heading">
-            <h3 className="gw-version-group" id="update-version-heading">{t("updates.updateGroup")}</h3>
-            <div className="gw-preferences">
-              {status && (
-                <Space align="center">
-                  <Switch id="update-auto-check" label={t("updates.autoCheck")} checked={status.auto_check}
-                    className="p-0" aria-busy={savingAutoCheck}
-                    disabled={savingAutoCheck || !status.channel_editable || busy !== "" || waiting || switchingTo !== null}
-                    onCheckedChange={value => void switchAutoCheck(value)} />
-                  <HelpTip content={status.auto_check ? t("updates.autoCheckOnHelp") : t("updates.autoCheckOffHelp")} />
-                </Space>
-              )}
-              <UsageReportSwitch />
-            </div>
-          </div>
+          <h3 className="gw-version-group" id="update-version-heading">{t("updates.updateGroup")}</h3>
           <div className="gw-update-body">
             {!status && showServerNotice && serverNotice}
             {loadError && <Notice tone="danger" title={loadError} />}
